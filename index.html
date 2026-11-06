@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONLY US ❤️</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#fff3f8;color:#533747;font-family:Arial,sans-serif}
+header{background:#f5a9c8;padding:22px;text-align:center;color:white}
+header h1{margin:0}
+main{max-width:650px;margin:auto;padding:16px}
+.card{background:white;padding:16px;border-radius:18px;margin:12px 0;box-shadow:0 3px 12px #eacbd9}
+input,textarea,button{width:100%;padding:12px;margin:6px 0;border:1px solid #edc7d8;border-radius:10px;font-size:15px}
+button{background:#e98bb3;color:white;border:0;font-weight:bold;cursor:pointer}
+button.secondary{background:#f6dce8;color:#75445b}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+nav button{font-size:12px;padding:12px 3px}
+section{display:none}
+section.active{display:block}
+#feed{max-height:300px;overflow:auto}
+.message{padding:9px;background:#fff0f6;border-radius:10px;margin:7px 0;overflow-wrap:anywhere}
+small{color:#98798a}
+img.memory{width:100%;border-radius:12px;margin-top:8px}
+.pet{text-align:center;font-size:75px}
+.game{border:1px solid #f0cbdc;border-radius:12px;padding:12px;margin:10px 0}
+</style>
+</head>
+<body>
+
+<header>
+<h1>ONLY US ❤️</h1>
+<p>Two hearts • One little world</p>
+</header>
+
+<main>
+<div id="auth" class="card">
+<h2>Welcome to ONLY US 💗</h2>
+<input id="email" type="email" placeholder="Your email">
+<input id="password" type="password" placeholder="Password">
+<button id="register">Create account</button>
+<button id="login" class="secondary">Login</button>
+<p id="authStatus"></p>
+</div>
+
+<div id="roomSetup" class="card" hidden>
+<h2>Our little world 🏡</h2>
+<button id="createRoom">Create our room</button>
+<input id="roomCode" placeholder="Enter your partner's room code">
+<button id="joinRoom">Join room</button>
+<p id="roomStatus"></p>
+</div>
+
+<div id="app" hidden>
+<div class="card">
+<h2>Welcome to our world 💕</h2>
+<p>Room code: <b id="displayCode"></b></p>
+<p><small>Share this code privately with your partner.</small></p>
+<button id="logout" class="secondary">Log out</button>
+</div>
+
+<nav>
+<button data-tab="home">🏡 Home</button>
+<button data-tab="chat">💬 Chat</button>
+<button data-tab="memories">📸 Memories</button>
+<button data-tab="notes">💌 Love notes</button>
+<button data-tab="diary">📖 Diary</button>
+<button data-tab="pet">🐻 Pet</button>
+<button data-tab="games">🎮 Games</button>
+</nav>
+
+<section id="home" class="active">
+<div class="card">
+<h2>Our shared bedroom 🏡</h2>
+<div style="background:#ffe0ee;border-radius:15px;padding:35px;text-align:center">
+<div style="font-size:65px">🛏️</div>
+<div style="font-size:35px">🧸 💗 🧸</div>
+<p>Welcome to our happy place!</p>
+</div>
+<p>Two people, one little world.</p>
+</div>
+</section>
+
+<section id="chat">
+<div class="card">
+<h2>Private messages 💬</h2>
+<div id="feed"></div>
+<input id="message" placeholder="Write a message...">
+<button id="sendMessage">Send ❤️</button>
+</div>
+</section>
+
+<section id="memories">
+<div class="card">
+<h2>Our memories 📸</h2>
+<input type="file" id="photo" accept="image/*">
+<button id="uploadPhoto">Save memory</button>
+<div id="photoFeed"></div>
+</div>
+</section>
+
+<section id="notes">
+<div class="card">
+<h2>Love notes 💌</h2>
+<textarea id="loveNote" placeholder="Write something sweet..."></textarea>
+<button id="saveNote">Save love note</button>
+<div id="noteFeed"></div>
+</div>
+</section>
+
+<section id="diary">
+<div class="card">
+<h2>Our daily diary 📖</h2>
+<input id="diaryDate" type="date">
+<textarea id="diaryText" placeholder="Write about your day..."></textarea>
+<button id="saveDiary">Save diary entry</button>
+<div id="diaryFeed"></div>
+</div>
+</section>
+
+<section id="pet">
+<div class="card">
+<h2>Our virtual pet 🐻</h2>
+<div class="pet" id="petFace">🐻</div>
+<h3 id="petName">Our Bear</h3>
+<p>Happiness: <b id="happiness">50</b>/100</p>
+<input id="newPetName" placeholder="Give our pet a name">
+<button id="renamePet">Name our pet</button>
+<button id="feedPet">🍓 Feed our pet</button>
+<button id="playPet">🎾 Play together</button>
+</div>
+</section>
+
+<section id="games">
+<div class="card">
+<h2>Our game corner 🎮</h2>
+
+<div class="game">
+<h3>1. Rock Paper Scissors</h3>
+<button onclick="rps('Rock')">🪨 Rock</button>
+<button onclick="rps('Paper')">📄 Paper</button>
+<button onclick="rps('Scissors')">✂️ Scissors</button>
+<p id="rpsResult"></p>
+</div>
+
+<div class="game">
+<h3>2. Coin Toss</h3>
+<button onclick="coin()">Flip coin</button>
+<p id="coinResult"></p>
+</div>
+
+<div class="game">
+<h3>3. Guess the Number</h3>
+<p>Guess a number between 1 and 10.</p>
+<input id="guess" type="number" min="1" max="10">
+<button onclick="guessNumber()">Guess</button>
+<p id="guessResult"></p>
+</div>
+
+<div class="game">
+<h3>4. Love Quiz</h3>
+<p>What is the sweetest thing to do together?</p>
+<button onclick="quiz('A')">A. Watch a movie</button>
+<button onclick="quiz('B')">B. Share memories</button>
+<button onclick="quiz('C')">C. All of these</button>
+<p id="quizResult"></p>
+</div>
+
+<div class="game">
+<h3>5. Lucky Wheel 🎡</h3>
+<button onclick="wheel()">Spin</button>
+<p id="wheelResult"></p>
+</div>
+
+<div class="game">
+<h3>6. Memory Match 🧠</h3>
+<p>Find two matching cards.</p>
+<div id="memoryGame" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+<p id="memoryResult"></p>
+<button onclick="startMemory()">Restart game</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+
+<script type="module">
+import {initializeApp} from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,
+signInWithEmailAndPassword,onAuthStateChanged,signOut}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {getFirestore,doc,setDoc,getDoc,updateDoc,
+collection,addDoc,onSnapshot,serverTimestamp}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getStorage,ref,uploadBytes,getDownloadURL}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+/* Replace the 2 PASTE_ values with your full ones from Firebase console */
+const firebaseConfig = {
+apiKey: "AIzaSyDayZGF6MMwGHNl6unjT5QHtNeE31t0DSE",
+  authDomain: "only-us-f8337.firebaseapp.com",
+  projectId: "only-us-f8337",
+  storageBucket: "only-us-f8337.firebasestorage.app",
+  messagingSenderId: "401966900789",
+  appId: "1:401966900789:web:c2628adbfe2ac54527f37c",
+  measurementId: "G-EKTNQ38NJG"
+};
+
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app);
+const db=getFirestore(app);
+const storage=getStorage(app);
+
+let room=null;
+let stops=[];
+
+const $=id=>document.getElementById(id);
+const show=(id,on)=>$(id).hidden=!on;
+const status=(id,msg)=>$(id).textContent=msg;
+
+$("register").onclick=async()=>{
+ try{
+ await createUserWithEmailAndPassword(auth,$("email").value,
+ $("password").value);
+ }catch(e){status("authStatus",e.message)}
+};
+
+$("login").onclick=async()=>{
+ try{
+ await signInWithEmailAndPassword(auth,$("email").value,
+ $("password").value);
+ }catch(e){status("authStatus",e.message)}
+};
+
+onAuthStateChanged(auth,async user=>{
+ show("auth",!user);
+ show("roomSetup",!!user);
+ show("app",false);
+ if(!user){room=null;stops.forEach(s=>s());stops=[];return}
+ const saved=localStorage.getItem("onlyusRoom");
+ if(saved){
+  const snap=await getDoc(doc(db,"rooms",saved));
+  if(snap.exists() && snap.data().memberIds.includes(user.uid)){
+   enterRoom(saved);
+  }
+ }
+});
+
+$("logout").onclick=()=>signOut(auth);
+
+$("createRoom").onclick=async()=>{
+ try{
+ const code="US"+crypto.randomUUID().replaceAll("-","").slice(0,12).toUpperCase();
+ await setDoc(doc(db,"rooms",code),{
+  memberIds:[auth.currentUser.uid],
+  petName:"Our Bear",happiness:50,
+  createdAt:serverTimestamp()
+ });
+ localStorage.setItem("onlyusRoom",code);
+ enterRoom(code);
+ }catch(e){status("roomStatus",e.message)}
+};
+
+$("joinRoom").onclick=async()=>{
+ try{
+ const code=$("roomCode").value.trim().toUpperCase();
+ const r=doc(db,"rooms",code);
+ const snap=await getDoc(r);
+ if(!snap.exists())throw Error("Room not found. Check the code.");
+ const members=snap.data().memberIds||[];
+ if(members.includes(auth.currentUser.uid)){
+  localStorage.setItem("onlyusRoom",code);
+  enterRoom(code);return;
+ }
+ if(members.length>=2)throw Error("This room already has two members.");
+ await updateDoc(r,{memberIds:[...members,auth.currentUser.uid]});
+ localStorage.setItem("onlyusRoom",code);
+ enterRoom(code);
+ }catch(e){status("roomStatus",e.message)}
+};
+
+function enterRoom(code){
+ room=code;
+ show("roomSetup",false);show("app",true);
+ $("displayCode").textContent=code;
+ stops.forEach(s=>s());stops=[];
+ const path=(name)=>collection(db,"rooms",room,name);
+
+ stops.push(onSnapshot(path("messages"),snap=>{
+  $("feed").replaceChildren();
+  snap.docs.sort((a,b)=>(a.data().createdAt?.seconds||0)-(b.data().createdAt?.seconds||0))
+  .forEach(d=>{
+   const p=document.createElement("p");
+   p.className="message";
+   p.textContent=d.data().text;
+   $("feed").append(p);
+  });
+  $("feed").scrollTop=$("feed").scrollHeight;
+ }));
+
+ for(const [type,target] of [["note","noteFeed"],["diary","diaryFeed"]]){
+  stops.push(onSnapshot(path("posts"),snap=>{
+   $(target).replaceChildren();
+   snap.docs.filter(d=>d.data().type===type).forEach(d=>{
+    const p=document.createElement("p");
+    p.className="message";
+    p.textContent=d.data().text;
+    $(target).append(p);
+   });
+  }));
+ }
+
+ stops.push(onSnapshot(path("memories"),snap=>{
+  $("photoFeed").replaceChildren();
+  snap.docs.forEach(d=>{
+   const img=document.createElement("img");
+   img.className="memory";
+   img.src=d.data().url;
+   img.alt="Shared memory";
+   $("photoFeed").append(img);
+  });
+ }));
+
+ stops.push(onSnapshot(doc(db,"rooms",room),snap=>{
+  if(!snap.exists())return;
+  $("petName").textContent=snap.data().petName||"Our Bear";
+  $("happiness").textContent=snap.data().happiness??50;
+ }));
+}
+
+async function addPost(type,text){
+ if(!room||!text.trim())return;
+ await addDoc(collection(db,"rooms",room,"posts"),{
+  type,text:text.trim(),uid:auth.currentUser.uid,
+  createdAt:serverTimestamp()
+ });
+}
+
+$("sendMessage").onclick=async()=>{
+ const text=$("message").value.trim();
+ if(!text)return;
+ try{
+ await addDoc(collection(db,"rooms",room,"messages"),{
+  text,uid:auth.currentUser.uid,createdAt:serverTimestamp()
+ });
+ $("message").value="";
+ }catch(e){alert(e.message)}
+};
+
+$("saveNote").onclick=async()=>{
+ try{await addPost("note",$("loveNote").value);$("loveNote").value=""}
+ catch(e){alert(e.message)}
+};
+
+$("saveDiary").onclick=async()=>{
+ try{
+ await addPost("diary",($("diaryDate").value||"Today")+" — "+$("diaryText").value);
+ $("diaryText").value="";
+ }catch(e){alert(e.message)}
+};
+
+$("uploadPhoto").onclick=async()=>{
+ const file=$("photo").files[0];
+ if(!file)return alert("Choose a photo first.");
+ if(file.size>5*1024*1024)return alert("Choose a photo under 5 MB.");
+ try{
+ const location=ref(storage,`rooms/${room}/${crypto.randomUUID()}`);
+ await uploadBytes(location,file);
+ const url=await getDownloadURL(location);
+ await addDoc(collection(db,"rooms",room,"memories"),{
+  url,uid:auth.currentUser.uid,createdAt:serverTimestamp()
+ });
+ alert("Memory saved ❤️");
+ }catch(e){alert(e.message)}
+};
+
+async function updatePet(values){
+ try{await updateDoc(doc(db,"rooms",room),values)}
+ catch(e){alert(e.message)}
+}
+$("renamePet").onclick=()=>updatePet({petName:$("newPetName").value.trim()||"Our Bear"});
+$("feedPet").onclick=()=>{
+ const n=Number($("happiness").textContent);
+ updatePet({happiness:Math.min(100,n+10)});
+};
+$("playPet").onclick=()=>{
+ const n=Number($("happiness").textContent);
+ updatePet({happiness:Math.min(100,n+15)});
+};
+
+document.querySelectorAll("nav button").forEach(b=>{
+ b.onclick=()=>{
+  document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+  $(b.dataset.tab).classList.add("active");
+ };
+});
+
+window.rps=choice=>{
+ const other=["Rock","Paper","Scissors"][Math.floor(Math.random()*3)];
+ const result=choice===other?"Tie!":(
+ (choice==="Rock"&&other==="Scissors")||
+ (choice==="Paper"&&other==="Rock")||
+ (choice==="Scissors"&&other==="Paper")?"You win!":"Try again!");
+ $("rpsResult").textContent=`You: ${choice} | Computer: ${other} — ${result}`;
+};
+window.coin=()=>{$("coinResult").textContent=Math.random()<.5?"Heads ❤️":"Tails 💗"};
+let secret=Math.ceil(Math.random()*10);
+window.guessNumber=()=>{
+ const n=Number($("guess").value);
+ $("guessResult").textContent=n===secret?"Correct! 🎉":n<secret?"Try higher!":"Try lower!";
+ if(n===secret)secret=Math.ceil(Math.random()*10);
+};
+window.quiz=answer=>{
+ $("quizResult").textContent=answer==="C"?"Correct! All of these! ❤️":"Nice choice! Try again!";
+};
+window.wheel=()=>{
+ const tasks=["Send a sweet message 💌","Choose a movie 🎬",
+ "Draw each other 🎨","Share a memory 📸","Play a game 🎮"];
+ $("wheelResult").textContent=tasks[Math.floor(Math.random()*tasks.length)];
+};
+
+let first=null,locked=false,matches=0;
+const symbols=["❤️","🐻","🌸","⭐","🍓","🌙","🎀","🐱"];
+window.startMemory=()=>{
+ first=null;locked=false;matches=0;
+ const cards=[...symbols,...symbols].sort(()=>Math.random()-.5);
+ $("memoryResult").textContent="";
+ $("memoryGame").replaceChildren();
+ cards.forEach((symbol,i)=>{
+  const b=document.createElement("button");
+  b.textContent="❔";
+  b.style.fontSize="22px";
+  b.dataset.symbol=symbol;
+  b.onclick=()=>{
+   if(locked||b.textContent!=="❔")return;
+   b.textContent=symbol;
+   if(!first){first=b;return}
+   if(first===b)return;
+   if(first.dataset.symbol===symbol){
+    first.disabled=true;b.disabled=true;first=null;matches++;
+    if(matches===8)$("memoryResult").textContent="You matched them all! ❤️";
+   }else{
+    const previous=first;first=null;locked=true;
+    setTimeout(()=>{
+     previous.textContent="❔";b.textContent="❔";locked=false;
+    },700);
+   }
+  };
+  $("memoryGame").append(b);
+ });
+};
+startMemory();
+</script>
+</body>
+</html>
+   
